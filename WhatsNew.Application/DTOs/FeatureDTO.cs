@@ -17,10 +17,10 @@ namespace WhatsNew.Application.DTOs
 		public bool IsMajor { get; set; }
 		public DateTime? CreatedDate { get; set; }
 		public DateTime? UpdatedDate { get; set; }
-		public string Author { get; set; }
+		public string? Author { get; set; }
 
-		public string RoleTagName { get; set; }
-		public string TopicTagName { get; set; }
+		public string? RoleTagName { get; set; }
+		public string? TopicTagName { get; set; }
 
 		public List<SubFeatureDTO> SubFeatures { get; set; }
 		public List<FeatureGuideDTO> FeatureGuides { get; set; }
