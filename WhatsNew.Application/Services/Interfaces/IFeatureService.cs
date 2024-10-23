@@ -12,7 +12,7 @@ namespace WhatsNew.Application.Services.Interfaces
     {
         Task<FeatureDTO> GetFeatureAsync(int id);
 		Task<IEnumerable<Feature>> GetFeaturesByAnnouncementAsync(int announcementId);
-		Task<IEnumerable<Feature>> FilterFeatures(int roleTagId = 0, int topicTagId = 0);
+		Task<IEnumerable<FeatureDTO>> FilterFeatures(int roleTagId = 0, int topicTagId = 0);
         Task<Feature> CreateFeatureAsync(FeatureDTO feature);
 		Task<Feature> UpdateFeatureAsync(FeatureDTO feature);
 		Task<bool> DeleteFeatureAsync(int id);

@@ -98,12 +98,24 @@ namespace WhatsNew.Application.Services
 			return true;
 		}
 
-		public async Task<IEnumerable<Feature>> FilterFeatures(int roleTagId = 0, int topicTagId = 0)
+		public async Task<IEnumerable<FeatureDTO>> FilterFeatures(int roleTagId = 0, int topicTagId = 0)
 		{
 			var features = await context.Features
-						  .Where(x => x.RoleTagId == roleTagId && x.TopicTagId == topicTagId).ToListAsync();
+				.Where(x => (x.RoleTagId == roleTagId || roleTagId == 0) && (x.TopicTagId == topicTagId || topicTagId == 0))
+				.ToListAsync();
 
-			return features;
+			var featureList = new List<FeatureDTO>();
+			foreach(var feature in features)
+			{
+				var mappedFeature = mapper.Map<FeatureDTO>(feature);
+
+				mappedFeature.SubFeatures = await GetSubFeaturesByFeatureId(feature.Id);
+				mappedFeature.FeatureGuides = await GetFeatureGuidesByFeatureId(feature.Id);
+
+				featureList.Add(mappedFeature);
+			}
+
+			return featureList;
 		}
 
 		public async Task<FeatureDTO> GetFeatureAsync(int id)

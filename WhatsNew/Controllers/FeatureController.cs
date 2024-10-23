@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WhatsNew.Application.DTOs;
 using WhatsNew.Application.Models;
+using WhatsNew.Application.QueryParameters;
 using WhatsNew.Application.Services.Interfaces;
 
 namespace WhatsNew.Controllers
@@ -41,6 +42,13 @@ namespace WhatsNew.Controllers
 		public async Task<IActionResult> GetLatest()
 		{
 			var result = await featureService.GetLatestFeatureAsync();
+			return Ok(result);
+		}
+
+		[HttpGet("filter")]
+		public async Task<IActionResult> GetFilteredList([FromQuery] FeatureFilterParams param)
+		{
+			var result = await featureService.FilterFeatures(param.RoleTagId, param.TopicTagId);
 			return Ok(result);
 		}
 
