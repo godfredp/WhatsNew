@@ -18,6 +18,7 @@ namespace WhatsNew.Application.DTOs
 		public DateTime? CreatedDate { get; set; }
 		public DateTime? UpdatedDate { get; set; }
 		public string? Author { get; set; }
+		public string? Title { get; set; }
 
 		public string? RoleTagName { get; set; }
 		public string? TopicTagName { get; set; }

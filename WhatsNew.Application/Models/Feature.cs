@@ -18,6 +18,7 @@ namespace WhatsNew.Application.Models
 		public DateTime? CreatedDate { get; set; }
 		public DateTime? UpdatedDate { get;set; }
 		public string Author { get; set; }
+		public string Title { get; set; }
 
 		[ForeignKey(nameof(RoleTagId))]
 		public virtual RoleTag RoleTag { get; set; }
