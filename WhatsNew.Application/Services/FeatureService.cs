@@ -77,6 +77,10 @@ namespace WhatsNew.Application.Services
 
 				newSubFeature.VideoUrl = subFeature.VideoUrl.Replace(arcadeUrl, updatedUrl);
 			}
+			else
+			{
+				newSubFeature.VideoUrl = subFeature.VideoUrl;
+			}
 			
 			context.SubFeatures.Add(newSubFeature);
 			await context.SaveChangesAsync();
