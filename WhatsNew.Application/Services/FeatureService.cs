@@ -69,7 +69,15 @@ namespace WhatsNew.Application.Services
 			var newSubFeature = new SubFeature();
 			newSubFeature.FeatureId = featureId;
 			newSubFeature.Text = subFeature.Text;
-			newSubFeature.VideoUrl = subFeature.VideoUrl;
+
+			var arcadeUrl = "https://app.arcade.software/share/";
+			if (subFeature.VideoUrl != null && subFeature.VideoUrl.Contains(arcadeUrl))
+			{
+				var updatedUrl = "https://demo.arcade.software/";
+
+				newSubFeature.VideoUrl = subFeature.VideoUrl.Replace(arcadeUrl, updatedUrl);
+			}
+			
 			context.SubFeatures.Add(newSubFeature);
 			await context.SaveChangesAsync();
 			return newSubFeature;
