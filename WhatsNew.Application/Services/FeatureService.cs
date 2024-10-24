@@ -31,6 +31,7 @@ namespace WhatsNew.Application.Services
 			newFeature.IsMajor = feature.IsMajor;
 			newFeature.CreatedDate = DateTime.Now;
 			newFeature.Author = feature.Author;
+			newFeature.Title = feature.Title;
 
 			var result = await context.Features.AddAsync(newFeature);
 			await context.SaveChangesAsync();
@@ -184,6 +185,7 @@ namespace WhatsNew.Application.Services
 			existingFeature.IsMajor = feature.IsMajor;
 			existingFeature.UpdatedDate = DateTime.Now;
 			existingFeature.Author = feature.Author;
+			existingFeature.Title = feature.Title;
 
 			if (feature.SubFeatures != null)
 			{
