@@ -17,10 +17,12 @@ namespace WhatsNew.Application
 			CreateMap<Announcement, AnnouncementDTO>().ReverseMap();
 			CreateMap<SubFeature, SubFeatureDTO>().ReverseMap();
 			CreateMap<FeatureGuide, FeatureGuideDTO>().ReverseMap();
-			//CreateMap<FeatureSteps, FeatureStepsDTO>().ReverseMap();
-			//CreateMap<RoleTag, RoleTagDTO>().ReverseMap();
-			//CreateMap<FeatureSteps, FeatureStepsDTO>().ReverseMap();
-			//CreateMap<RoleGroup, RoleGroupDTO>().ReverseMap();
+			CreateMap<RoleTag, RoleTagDTO>()
+				.ForMember(p => p.RoleGroupName, opt => opt.MapFrom(e => e.RoleGroup.Name));
+			CreateMap<User, UserDTO>()
+				.ForMember(p => p.RoleTagName, opt => opt.MapFrom(e => e.RoleTag.Name));
+			CreateMap<TopicTag, TopicTagDTO>()
+				.ForMember(p => p.TopicGroupName, opt => opt.MapFrom(e => e.TopicGroup.Name));
 
 		}
 	}

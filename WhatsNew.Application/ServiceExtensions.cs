@@ -12,6 +12,7 @@ namespace WhatsNew.Application
 			services.AddAutoMapper(typeof(MappingProfile));
 			services.AddScoped<IAnnouncementService, AnnouncementService>();
 			services.AddScoped<IFeatureService, FeatureService>();
+			services.AddScoped<IDropdownService, DropdownService>();
 		}
 	}
 }
