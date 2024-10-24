@@ -22,6 +22,7 @@ namespace WhatsNew.Application
 		public DbSet<RoleGroup> RoleGroups { get; set; }
 		public DbSet<RoleTag> RoleTags { get; set; }
 		public DbSet<SubFeature> SubFeatures { get; set; }
+		public DbSet<TopicGroup> TopicGroups{ get; set; }
 		public DbSet<TopicTag> TopicTags { get; set; }
 		public DbSet<User> Users { get; set; }
 	}

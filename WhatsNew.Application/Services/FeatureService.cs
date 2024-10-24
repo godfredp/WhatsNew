@@ -122,14 +122,30 @@ namespace WhatsNew.Application.Services
 		{
 			var result = await context.Features.Where(x => x.Id == id).FirstOrDefaultAsync();
 
-			if (result == null) return null;
+			if (result == null)
+			{
+				throw new Exception("Feature not found");
+			};
 
 			var mappedResult = mapper.Map<FeatureDTO>(result);
 
 			mappedResult.SubFeatures = await GetSubFeaturesByFeatureId(result.Id);
 			mappedResult.FeatureGuides = await GetFeatureGuidesByFeatureId(result.Id);
 
+			mappedResult.RoleTagName = await GetRoleTagName(result.RoleTagId);
+			mappedResult.TopicTagName = await GetTopicTagName(result.TopicTagId);
+
 			return mappedResult;
+		}
+
+		private async Task<string> GetRoleTagName(int roleTagId)
+		{
+			return await context.RoleTags.Where(x => x.Id == roleTagId).Select(x => x.Name).FirstOrDefaultAsync();
+		}
+
+		private async Task<string> GetTopicTagName(int topicTagId)
+		{
+			return await context.TopicTags.Where(x => x.Id == topicTagId).Select(x => x.Name).FirstOrDefaultAsync();
 		}
 
 		public async Task<IEnumerable<Feature>> GetFeaturesByAnnouncementAsync(int announcementId)
@@ -147,7 +163,7 @@ namespace WhatsNew.Application.Services
 
 			if (existingFeature == null)
 			{
-				return null;
+				throw new Exception("Feature not found");
 			}
 
 			existingFeature.RoleTagId = feature.RoleTagId;
@@ -184,14 +200,11 @@ namespace WhatsNew.Application.Services
 		public async Task<FeatureDTO> GetLatestFeatureAsync()
 		{
 			var result = await context.Features
-						.OrderByDescending(x => x.CreatedDate).FirstOrDefaultAsync();
+						.OrderByDescending(x => x.Id).FirstOrDefaultAsync();
 
 			if(result == null) return null;
 
-			var mappedResult = mapper.Map<FeatureDTO>(result);
-
-			mappedResult.SubFeatures = await GetSubFeaturesByFeatureId(result.Id);
-			mappedResult.FeatureGuides = await GetFeatureGuidesByFeatureId(result.Id );
+			var mappedResult = await GetFeatureAsync(result.Id);
 
 			return mappedResult;
 		}
@@ -206,6 +219,34 @@ namespace WhatsNew.Application.Services
 		{
 			var featureGuides = await context.FeatureGuides.Where(x => x.FeatureId == featureId).ToListAsync();
 			return mapper.Map<List<FeatureGuideDTO>>(featureGuides);
+		}
+
+		public async Task<List<FeatureDTO>> GetLatestFeatureByUserIdAsync(int userId)
+		{
+			var user = await context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+			if (user == null)
+			{
+				throw new Exception("User not found");
+			};
+
+			var result = await context.Features
+						.Where(x => x.RoleTagId == user.RoleTagId)
+						.OrderByDescending(x => x.Id).ToListAsync();
+
+			if (result.Count == 0)
+			{
+				throw new Exception("No annoucement for user");
+			};
+
+			var listOfFeatures = new List<FeatureDTO>();
+			foreach (var feature in result)
+			{
+				var mappedResult = await GetFeatureAsync(feature.Id);
+
+				listOfFeatures.Add(mappedResult);
+			}
+			
+			return listOfFeatures;
 		}
 	}
 }

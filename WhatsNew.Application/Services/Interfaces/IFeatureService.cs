@@ -17,5 +17,6 @@ namespace WhatsNew.Application.Services.Interfaces
 		Task<Feature> UpdateFeatureAsync(FeatureDTO feature);
 		Task<bool> DeleteFeatureAsync(int id);
         Task<FeatureDTO> GetLatestFeatureAsync();
-    }
+		Task<List<FeatureDTO>> GetLatestFeatureByUserIdAsync(int userId);
+	}
 }

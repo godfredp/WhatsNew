@@ -52,5 +52,12 @@ namespace WhatsNew.Controllers
 			return Ok(result);
 		}
 
+		[HttpGet("for-user/{userId}")]
+		public async Task<IActionResult> GetFilteredList(int userId)
+		{
+			var result = await featureService.GetLatestFeatureByUserIdAsync(userId);
+			return Ok(result);
+		}
+
 	}
 }
